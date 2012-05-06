@@ -1,10 +1,25 @@
 h1= title
 p Welcome to #{title}
-canvas#altimeter
+div#altimeter
 script(type='text/javascript')
+  // setup
   var socket = io.connect();
+
   // Get Data
   socket.on('user_count', function(data) {
     //line1.append(new Date().getTime(), data.number);
     console.log(data.number)
   });
+
+  //graph data
+  var data = [ { x: 0, y: 40 }, { x: 1, y: 49 }, { x: 2, y: 17 }, { x: 3, y: 42 } ];
+  var graph = new Rickshaw.Graph( {
+    element : document.querySelector("#altimeter"),
+    width : 580,
+    height : 250,
+    series : [ {
+            color : 'steelblue',
+            data : data
+    } ]
+  });
+  graph.render(); 
