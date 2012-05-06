@@ -1,2 +1,10 @@
 h1= title
 p Welcome to #{title}
+canvas#altimeter
+script(type='text/javascript')
+  var socket = io.connect();
+  // Get Data
+  socket.on('user_count', function(data) {
+    //line1.append(new Date().getTime(), data.number);
+    console.log(data.number)
+  });
