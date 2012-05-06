@@ -6,6 +6,8 @@
 var express = require('express')
   , routes = require('./routes');
 
+var io = require('socket.io');
+
 var app = module.exports = express.createServer();
 
 // Configuration
@@ -26,6 +28,29 @@ app.configure('development', function(){
 app.configure('production', function(){
   app.use(express.errorHandler());
 });
+
+//setup socket.io
+//TODO probably move this to a submodule and add data from UDP reporting
+var user_count = 0;
+io = require('socket.io').listen(app);
+io.sockets.on('connection', function(socket) {
+  user_count++;
+  io.sockets.emit('user_count', {
+    number: user_count
+  });
+  setInterval(function() {
+    return io.sockets.emit('user_count', {
+      number: user_count
+    });
+  }, 1200);
+  return socket.on('disconnect', function() {
+    user_count--;
+    return io.sockets.emit('user_count', {
+      number: user_count
+    });
+  });
+});
+
 
 // Routes
 

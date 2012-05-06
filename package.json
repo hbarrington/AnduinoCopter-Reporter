@@ -1,8 +1,8 @@
 {
   "author": "Hunter Barrington <hunter@ftwdev.com>",
-  "name": "Anduino Copter Reporter",
+  "name": "AnduinoCopter-Reporter",
   "description": "Realtime Anduino Copter with node.js, socket.io and smoothie.js",
-  "keywords": ["socket.io", "realtime", "counter", "chart", "smoothie.js"],
+  "keywords": ["socket.io", "realtime", "quad-copter", "chart"],
   "version": "0.0.1",
   "private": true,
   "homepage": "Realtime Anduino Copter with node.js, socket.io and smoothie.js",

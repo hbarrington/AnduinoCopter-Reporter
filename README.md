@@ -2,19 +2,19 @@
 
 ## Summary
 
-A realtime reporter for error messages, flight data, and eventually images. The application is based on node.js, and uses socket.io for realtime reporting. Compatible with Noah Young and Kevin Hughes' [AnduinoCopter][9] project. 
+A realtime reporter for error messages, flight data, and eventually images. The application is based on node.js, and uses socket.io for realtime reporting. Compatible with Noah Young and Kevin Hughes' [AnduinoCopter][8] project. 
 
 ## Installation
 
 Assuming you have [node.js][6] and [npm][7] installed you can install with
 
-    git clone git://github.com/shapeshed/counter.git
-    cd counter
+    git clone git@github.com:hbarrington/AnduinoCopter-Reporter.git
+    cd AnduinoCopter-Reporter
     npm install
 
 Then you can start the server with
 
-    node server.js
+    node app.js
 
 Then open `http://0.0.0.0:1337` in your favorite browser.
 
