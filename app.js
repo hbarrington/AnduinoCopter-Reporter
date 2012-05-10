@@ -8,7 +8,6 @@ var express = require('express')
 
 var io = require('socket.io');
 var dgram = require('dgram');
-var Buffer = require('buffer').Buffer;
 
 var app = module.exports = express.createServer();
 
@@ -46,6 +45,11 @@ io.sockets.on('connection', function(socket) {
       number: user_count
     });
   }, 1200);
+  socket.on('metric-data', function(metric, point){
+    return io.sockets.emit('taco', {
+      number: point
+    });
+  });
   return socket.on('disconnect', function() {
     user_count--;
     return io.sockets.emit('user_count', {
@@ -57,7 +61,7 @@ io.sockets.on('connection', function(socket) {
 
 
 //setup UDP server for data reception
-//receives data on UDP port 1337 and spits it to socket io
+//receives data on UDP port 1337 and spits it to socket.io
 SERVER_HOST = '192.168.233.137';
 SERVER_PORT = 1337;
 
@@ -71,10 +75,9 @@ var clients = {};
 function processMsg(msg, peer) {
   var str = msg.toString();
   str = str.replace(/[\n\r]/g, ""); 
+  //TODO get metric
   if (str.length > 0) {
-    var buf = new Buffer(peer.address + ":"+ peer.port + "> "+  str + '\n');
-    //broadcast(buf); //TODO send stuff to socket.io here
-    console.log('received ' + buf);
+    return io.sockets.emit('metric-data', {metric: 'taco', data : str });
   }
 }
 

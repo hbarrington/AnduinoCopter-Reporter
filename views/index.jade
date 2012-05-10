@@ -10,9 +10,12 @@ script(type='text/javascript')
 
   // Get Data
   socket.on('user_count', function(data) {
-    //line1.append(new Date().getTime(), data.number);
-    //console.log(data.number)
     $("#user-count").text(data.number);
+  });
+  socket.on('taco', function(data) {
+    //TODO graph
+    console.log(data.number);
+    //line1.append(new Date().getTime(), data.number);
   });
 
   //graph data
