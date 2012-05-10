@@ -7,6 +7,8 @@ var express = require('express')
   , routes = require('./routes');
 
 var io = require('socket.io');
+var dgram = require('dgram');
+var Buffer = require('buffer').Buffer;
 
 var app = module.exports = express.createServer();
 
@@ -29,8 +31,9 @@ app.configure('production', function(){
   app.use(express.errorHandler());
 });
 
+
 //setup socket.io
-//TODO probably move this to a submodule and add data from UDP reporting
+//TODO probably move this to a submodule
 var user_count = 0;
 io = require('socket.io').listen(app);
 io.sockets.on('connection', function(socket) {
@@ -50,6 +53,47 @@ io.sockets.on('connection', function(socket) {
     });
   });
 });
+
+
+
+//setup UDP server for data reception
+//receives data on UDP port 1337 and spits it to socket io
+SERVER_HOST = '192.168.233.137';
+SERVER_PORT = 1337;
+
+function ts() {
+  return Math.round(new Date().getTime() / 1000);
+}
+var generation = ts();
+var sock = null;
+var clients = {};
+//dependency functions
+function processMsg(msg, peer) {
+  var str = msg.toString();
+  str = str.replace(/[\n\r]/g, ""); 
+  if (str.length > 0) {
+    var buf = new Buffer(peer.address + ":"+ peer.port + "> "+  str + '\n');
+    //broadcast(buf); //TODO send stuff to socket.io here
+    console.log('received ' + buf);
+  }
+}
+
+function updateTimeout(key) {
+  clients[key] = generation;
+}
+
+sock = dgram.createSocket("udp4", function (msg, peer) {
+  var key = peer.address + ":" + peer.port;
+  updateTimeout(key);
+  processMsg(msg, peer);
+});
+
+/*sock.on('listening', function() {
+  console.log('Bound to '+ SERVER_HOST + ':' + SERVER_PORT);
+});*/
+sock.bind(SERVER_PORT, SERVER_HOST);
+
+
 
 
 // Routes

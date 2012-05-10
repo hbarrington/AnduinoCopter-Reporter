@@ -1,5 +1,8 @@
 h1= title
-p Welcome to #{title}
+p Welcome to the #{title}
+div#users-online-widget
+  h3 Users Online
+  div#user-count
 div#altimeter
 script(type='text/javascript')
   // setup
@@ -8,7 +11,8 @@ script(type='text/javascript')
   // Get Data
   socket.on('user_count', function(data) {
     //line1.append(new Date().getTime(), data.number);
-    console.log(data.number)
+    //console.log(data.number)
+    $("#user-count").text(data.number);
   });
 
   //graph data
