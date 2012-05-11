@@ -12,9 +12,9 @@ script(type='text/javascript')
   socket.on('user_count', function(data) {
     $("#user-count").text(data.number);
   });
-  socket.on('taco', function(data) {
+  socket.on('metric-data', function(data) {
     //TODO graph
-    console.log(data.number);
+    console.log(data.metric + ' ' +  data.data);
     //line1.append(new Date().getTime(), data.number);
   });
 

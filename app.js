@@ -40,16 +40,17 @@ io.sockets.on('connection', function(socket) {
   io.sockets.emit('user_count', {
     number: user_count
   });
+  /*socket.on('metric-data', function(metric, point){
+    console.log("testing");
+    /*io.sockets.emit(metric, {
+      number: point
+    });
+  });*/
   setInterval(function() {
     return io.sockets.emit('user_count', {
       number: user_count
     });
   }, 1200);
-  socket.on('metric-data', function(metric, point){
-    return io.sockets.emit('taco', {
-      number: point
-    });
-  });
   return socket.on('disconnect', function() {
     user_count--;
     return io.sockets.emit('user_count', {
